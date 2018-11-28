@@ -1,0 +1,183 @@
+CHG0080231:
+
+
+Source and Target VC : VC55EMEA  VC55EMEA.kt.group.loca  10.245.68.155
+Source DC :KTEAL
+Target DC : KTSLO
+_________
+
+
+Prerequisites :-
+
+     1. Full back of virtual Machine.
+     2. Both the source host and the target host must be in the same configuration.
+     3. Data store should be accessible/configured to both the source host and the target host.
+     4. VLAN should be configured to target host.
+     5. Remove VM MAC address registration, if any (MAC address changed once clone the VM).
+     6. Verify data store free space before cloning the VM.
+
+Migration  steps :
+
+-Verify connectivity to the OVPN IPcenter and CIs
+
+-set IPmon on Standby Mode (IPsoft)
+
+Step 1.
+1.create a VM clone (IBM)
+
+2.transfer the folder source VM to the target ESX (IBM) using Migrate option 
+
+3.Add the target VM to the inventory (IBM) and select the VLan and Connect .
+
+4.Power off the source VM (IPsoft) from IPSOFT Team
+
+5.Power on the target VM (IBM)
+
+-From ESX environment upgrade the latest VMware tools (IBM)
+
+-in case the VM is not reachable, login on VM console, edit /etc/udev/rules.d/70-persistent-net.rules removing the old PCI eth0 and rename the eth1 to eth0 and reboot the VM (IPsoft)
+
+-Verify connectivity to the OVPN IPcenter and CIs
+
+- set IPmon on Activity Mode (IPsoft)
+
+ 
+Step – 1.1 - Clone the VM
+
+     1. Right-click the virtual machine and select Clone and follow the on-screen wizard.
+     2. Enter a virtual machine name (hostname_clone), select a location, and click Next.
+     3. Select a host or cluster on which to run the new cloned virtual machine.
+
+
+Step – 1.2 – Migrate Cloned vMotion
+
+
+     a. Select the cloned VMs to migrate and repeat the following steps for each VM.
+     b. Right click the powered OFF cloned VM.
+     c. Select "Migrate..."
+     d. Select "Change both host and datastore" and then click Next.
+     e. Select the destination host and then click Next.
+     f. Select the resource pool and then click Next.
+     g. Select the destination datastore and then click Next.
+     h. Review the summary and then click Finish.
+     i. Power OFF the source VM.
+     j. Power ON cloned VM.
+
+
+Step - 3 - Post migration
+
+
+     1. Verify ping to the server.
+
+     2. Take RDP and try to login by domain ID.
+
+     3. Check application functionality with application owner.
+
+
+Step - 4 - Back-out plan
+
+
+     1. Power OFF the migrated cloned VM from the target location.
+
+     2. Power ON the source VM.
+
+     3. Check application functionality with applica
+     
+     
+     
+     
+     
+     
+     
+     TSM---Installation Process:
+     
+     
+     
+     
+     TSM ::
+kosjohn1@in.ibm.com - Koshy K John1/India/IBM [7:51:50 PM] writes...
+
+Node Name: [WPP_P4_K_MBNAPWBI018_FIL]
+CUSTOMER: [WPP Americas]
+IDC: [Wire & Plastic Products RTP]
+Service Platform: [WPPRTP01-IUS-05-001-TSM]
+Client Device Name: [MBNAPWBI018]
+Domain: [DOM_DAILY]  
+
+kosjohn1@in.ibm.com - Koshy K John1/India/IBM [7:53:27 PM] writes...
+
+UK:	
+	WPPGFD01-IUK-01-001-TSM	10.172.232.11
+	WPPGFD01-IUK-02-001-TSM	10.172.232.12
+	WPPGFD01-IUK-03-001-TSM	10.172.232.13
+	WPPGFD01-IUK-04-001-TSM	10.172.232.14
+	WPPGFD01-IUK-05-001-TSM	10.172.232.15
+	WPPGFD01-IUK-06-001-TSM	10.172.232.16
+
+AMERICAS:	
+	WPPRTP01-IUS-01-001-TSM	10.176.232.11
+	WPPRTP01-IUS-02-001-TSM	10.176.232.12
+	WPPRTP01-IUS-03-001-TSM	10.176.232.13
+	WPPRTP01-IUS-04-001-TSM	10.176.232.14
+	WPPRTP01-IUS-05-001-TSM	10.176.232.15
+	WPPRTP01-IUS-06-001-TSM	10.176.232.16
+
+APAC:	
+	WPPSIN01-ISG-01-001-TSM	10.186.232.11
+	WPPSIN01-ISG-02-001-TSM	10.186.232.12
+	WPPSIN01-ISG-03-001-TSM	10.186.232.15
+	WPPSIN01-ISG-04-001-TSM	10.186.232.16
+
+***********************************************
+ C:\Program Files\Tivoli\TSM\baclient>dsm.opt
+
+
+\\MBNAPAPP056\C$\temp\TSM_Setup_files
+
+
+q sched
+
+and need to check the TSM services in services.msc 
+******************
+
+Procedure 1.
+Source DC
+ Target  DC
+1.Clone the  Source VM in Source location  Data Store 
+
+2. power off the VM 
+Register  the cloned VM in to Inventory 
+3.Migrate the Source VM using Migration option  -->
+VM will moved to new target location 
+4.un register the inventory  in Source VM
+And resister the Inventory  in target.
+5.
+And change and connect the Vlan and power on the VM
+6 
+Test the access .
+
+
+
+
+
+
+
+Procedure 2: from Claudio 
+
+Source DC
+ Target  DC
+1.Clone the  Source Vm in to target data Store 
+VM Clone available in target data store 
+2.
+Register  the cloned VM in to Inventory 
+3.Power off the Source VM 
+
+4.
+Power On the target VM
+5.
+Log in to console and change the  eth0  to eth 1 
+6
+And reboot 
+
+
+***************
